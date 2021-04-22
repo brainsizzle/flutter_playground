@@ -1,98 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:sudokudart/src/model/model.dart';
-import 'package:sudokudart/src/widgets/puzzle.dart';
+import 'package:sudokudart/src/model/puzzle.dart';
+import 'package:sudokudart/src/model/field.dart';
+import 'package:sudokudart/src/widgets/display.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(SuduokuSolver());
 }
 
-class MyApp extends StatelessWidget {
+class SuduokuSolver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Sudoku Solver',
       theme: ThemeData(
           primarySwatch: Colors.green, accentColor: Colors.lightBlueAccent),
-      home: MyHomePage(title: 'Sudoku Solver'),
+      home: MainPage(title: 'Sudoku Solver'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+class MainPage extends StatefulWidget {
+  MainPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MainPageState createState() => _MainPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  final formatter = new NumberFormat("#.000000");
+class _MainPageState extends State<MainPage> {
   SudokuPuzzle puzzle = new SudokuPuzzle();
 
-  void _incrementCounter() {
+  void _checkSudoku() {
     setState(() {
-      puzzle.allInitialFields[0].value = puzzle.allInitialFields[0].value + 1;
+      puzzle.checkPuzzle();
+    });
+  }
+
+  void _onClicked(int index) {
+    setState(() {
+      puzzle.incrementValue(index);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Table(
-          children: <TableRow>[
-            RowDisplay(values: puzzle.getRow(0)),
-            RowDisplay(values: puzzle.getRow(1)),
-            RowDisplay(values: puzzle.getRow(2)),
-            RowDisplay(values: puzzle.getRow(3)),
-            RowDisplay(values: puzzle.getRow(4)),
-            RowDisplay(values: puzzle.getRow(5)),
-            RowDisplay(values: puzzle.getRow(6)),
-            RowDisplay(values: puzzle.getRow(7)),
-            RowDisplay(values: puzzle.getRow(8)),
-          ],
-        ),
+            children: List<RowDisplay>.generate(
+                9,
+                (rowNum) => new RowDisplay(
+                    values: puzzle.getRow(rowNum),
+                    startingIndex: puzzle.getStartingIndex(rowNum),
+                    onClicked: _onClicked))),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: _checkSudoku,
+        tooltip: 'check state',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
-}
-
-class RowDisplay extends TableRow {
-  RowDisplay({Key key, this.values}) : super(key: key);
-
-  final List<SudokuField> values;
-
-  @override
-  List<Widget> get children =>
-      List.generate(9, (index) => new ValueDisplay(value: values[index]));
 }
