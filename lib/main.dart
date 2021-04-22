@@ -1,28 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:sudokudart/src/model/model.dart';
+import 'package:sudokudart/src/widgets/puzzle.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Sudoku Solver',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+          primarySwatch: Colors.green, accentColor: Colors.lightBlueAccent),
+      home: MyHomePage(title: 'Sudoku Solver'),
     );
   }
 }
@@ -46,21 +38,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 1;
-  int _prev = 1;
-  double _ratio = 1.0;
+  final formatter = new NumberFormat("#.000000");
+  SudokuPuzzle puzzle = new SudokuPuzzle();
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      int _temp = _counter;
-      _counter += _prev;
-      _prev = _temp;
-      _ratio = _counter / _prev;
+      puzzle.allInitialFields[0].value = puzzle.allInitialFields[0].value + 1;
     });
   }
 
@@ -81,34 +64,17 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Text(
-              '$_ratio',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+        child: Table(
+          children: <TableRow>[
+            RowDisplay(values: puzzle.getRow(0)),
+            RowDisplay(values: puzzle.getRow(1)),
+            RowDisplay(values: puzzle.getRow(2)),
+            RowDisplay(values: puzzle.getRow(3)),
+            RowDisplay(values: puzzle.getRow(4)),
+            RowDisplay(values: puzzle.getRow(5)),
+            RowDisplay(values: puzzle.getRow(6)),
+            RowDisplay(values: puzzle.getRow(7)),
+            RowDisplay(values: puzzle.getRow(8)),
           ],
         ),
       ),
@@ -119,4 +85,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+class RowDisplay extends TableRow {
+  RowDisplay({Key key, this.values}) : super(key: key);
+
+  final List<SudokuField> values;
+
+  @override
+  List<Widget> get children =>
+      List.generate(9, (index) => new ValueDisplay(value: values[index]));
 }

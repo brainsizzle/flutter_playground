@@ -1,5 +1,6 @@
-name: flutter_application_2
-description: A new Flutter project.
+name: sudokudart
+description: A sudoku solver written with dart.
+# repository: https://github.com/brainsizzle/sudokudart
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -28,6 +29,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  english_words: ^4.0.0-0
+  intl: ^0.15.7
 
 dev_dependencies:
   flutter_test:
