@@ -13,5 +13,6 @@
 * hot reload not working out of the box
 * xcode support is ok
 * live coding is really slow
+* dart is quite high end and requires programming experiece
 
 # 

@@ -34,15 +34,20 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   SudokuPuzzle puzzle = new SudokuPuzzle();
 
-  void _checkSudoku() {
+  void _fieldClicked(int index) {
     setState(() {
-      puzzle.checkPuzzle();
+      puzzle.selectField(index);
     });
   }
 
-  void _onClicked(int index) {
+  void _buttonClicked(String value) {
     setState(() {
-      puzzle.selectField(index);
+      if (value == "X") {
+        puzzle.resetSelectedField();
+      } else {
+        puzzle.setSelectedValue(int.parse(value));
+      }
+      puzzle.checkPuzzle();
     });
   }
 
@@ -63,41 +68,32 @@ class _MainPageState extends State<MainPage> {
                         sudokuPuzzle: puzzle,
                         startingIndex: puzzle.getRowStartingIndex(rowNum),
                         numberOfFields: 9,
-                        onClicked: _onClicked))),
+                        onClicked: _fieldClicked))),
             Spacer(),
             Table(
               children: [
                 TableRow(
                   children: [
-                    Spacer(),
-                    TypeValueButton("1"),
-                    TypeValueButton("2"),
-                    TypeValueButton("3"),
-                    TypeValueButton("4"),
-                    TypeValueButton("5"),
-                    Spacer(),
+                    TypeValueButton(value: "1", onClicked: _buttonClicked),
+                    TypeValueButton(value: "2", onClicked: _buttonClicked),
+                    TypeValueButton(value: "3", onClicked: _buttonClicked),
+                    TypeValueButton(value: "4", onClicked: _buttonClicked),
+                    TypeValueButton(value: "5", onClicked: _buttonClicked),
                   ],
                 ),
                 TableRow(
                   children: [
-                    Spacer(),
-                    TypeValueButton("6"),
-                    TypeValueButton("7"),
-                    TypeValueButton("8"),
-                    TypeValueButton("9"),
-                    TypeValueButton("X"),
-                    Spacer(),
+                    TypeValueButton(value: "6", onClicked: _buttonClicked),
+                    TypeValueButton(value: "7", onClicked: _buttonClicked),
+                    TypeValueButton(value: "8", onClicked: _buttonClicked),
+                    TypeValueButton(value: "9", onClicked: _buttonClicked),
+                    TypeValueButton(value: "X", onClicked: _buttonClicked),
                   ],
                 ),
               ],),
             Padding(padding: EdgeInsets.only(bottom: 10.0)),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _checkSudoku,
-        tooltip: 'check state',
-        child: Icon(Icons.add),
       ),
     );
   }

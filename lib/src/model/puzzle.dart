@@ -4,7 +4,7 @@ class SudokuPuzzle {
   List<SudokuField> fields =
       List<SudokuField>.generate(81, (int index) => SudokuField());
 
-  int selectedField = 0;
+  int selectedFieldIndex = 0;
 
   SudokuPuzzle() {
     fields[0].value = 3;
@@ -169,10 +169,22 @@ class SudokuPuzzle {
   }
 
   bool isSelected(int index) {
-    return index == selectedField;
+    return index == selectedFieldIndex;
   }
 
   void selectField(int index) {
-    selectedField = index;
+    selectedFieldIndex = index;
+  }
+
+  void resetSelectedField() {
+    getSelectedField().value = 0;
+  }
+
+  SudokuField getSelectedField() {
+    return fields[selectedFieldIndex];
+  }
+
+  void setSelectedValue(int value) {
+    getSelectedField().value = value;
   }
 }
