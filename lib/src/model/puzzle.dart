@@ -2,7 +2,7 @@ import 'package:sudokudart/src/model/field.dart';
 
 class SudokuPuzzle {
   List<SudokuField> fields =
-      List<SudokuField>.generate(81, (int index) => SudokuField());
+  List<SudokuField>.generate(81, (int index) => SudokuField());
 
   int selectedFieldIndex = 0;
 
@@ -46,10 +46,10 @@ class SudokuPuzzle {
     int startingRow = 0;
     if (blockNum >= 3) {
       startingRow = 3;
-    } 
+    }
     if (blockNum >= 6) {
       startingRow = 6;
-    } 
+    }
 
     int startingCol = 0;
     if (blockNum == 1 || blockNum == 4|| blockNum == 7) {
@@ -66,7 +66,7 @@ class SudokuPuzzle {
       fields[getIndex(startingRow, startingCol + 1)],
       fields[getIndex(startingRow +1, startingCol + 1)],
       fields[getIndex(startingRow +2, startingCol + 1)],
-      
+
       fields[getIndex(startingRow, startingCol + 2)],
       fields[getIndex(startingRow +1, startingCol + 2)],
       fields[getIndex(startingRow +2, startingCol + 2)],
@@ -186,5 +186,37 @@ class SudokuPuzzle {
 
   void setSelectedValue(int value) {
     getSelectedField().value = value;
+  }
+
+  void moveSelectionRight() {
+    if (selectedFieldIndex % 9 == 8) {
+      selectedFieldIndex -= 8;
+    } else {
+      selectedFieldIndex++;
+    }
+  }
+
+  void moveSelectionLeft() {
+    if (selectedFieldIndex % 9 == 0) {
+      selectedFieldIndex += 8;
+    } else {
+      selectedFieldIndex--;
+    }
+  }
+
+  void moveSelectionUp() {
+    if (selectedFieldIndex < 9) {
+      selectedFieldIndex = 72 + selectedFieldIndex;
+    } else {
+      selectedFieldIndex -= 9;
+    }
+  }
+
+  void moveSelectionDown() {
+    if (selectedFieldIndex >= 72) {
+      selectedFieldIndex -= 72;
+    } else {
+      selectedFieldIndex += 9;
+    }
   }
 }

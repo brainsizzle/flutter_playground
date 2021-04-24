@@ -50,6 +50,24 @@ class ValueDisplay extends StatelessWidget {
   }
 }
 
+class TripleRow extends Table {
+  TripleRow({Key key, this.sudokuPuzzle, this.startingIndex, this.onClicked})
+      : super(key: key);
+
+  final SudokuPuzzle sudokuPuzzle;
+  final int startingIndex;
+  final ValueChanged<int> onClicked;
+
+  @override
+  List<RowDisplay> get children =>List<RowDisplay>.generate(
+      3,
+          (rowNum) => new RowDisplay(
+          sudokuPuzzle: sudokuPuzzle,
+          startingIndex: startingIndex + sudokuPuzzle.getRowStartingIndex(rowNum),
+          numberOfFields: 3,
+          onClicked: onClicked));
+}
+
 class RowDisplay extends TableRow {
   RowDisplay({Key key, this.sudokuPuzzle, this.startingIndex, this.numberOfFields, this.onClicked})
       : super(key: key);
