@@ -24,12 +24,19 @@ class ValueDisplay extends StatelessWidget {
 
     String _text = possibleValues.contains(num) ? num.toString() : "";
 
-    return Center(
-        child: Text(
-          _text,
-          textScaleFactor: 0.8,
-          style: TextStyle(color: Colors.grey[600]),
-        ));
+    return Container (
+        // decoration: BoxDecoration(
+        //   borderRadius: BorderRadius.all(
+        //     Radius.circular(500),
+        //   ),
+        //   color: Colors.green,
+        // ),
+        child: Center(
+            child: Text(
+              _text,
+              textScaleFactor: 0.8,
+              style: TextStyle(color: Colors.grey[600]),
+            )));
   }
 
   static String getValueAsText(int value) {
