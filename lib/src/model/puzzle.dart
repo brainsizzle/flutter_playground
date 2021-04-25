@@ -7,9 +7,37 @@ class SudokuPuzzle {
   int selectedFieldIndex = 0;
 
   SudokuPuzzle() {
-    fields[0].value = 3;
-    fields[5].value = 2;
-    fields[15].value = 2;
+
+    // todo import from string
+    fields[2].value = 8;
+    fields[9].value = 4;
+    fields[10].value = 1;
+    fields[12].value = 6;
+    fields[15].value = 7;
+    fields[16].value = 9;
+    fields[18].value = 6;
+    fields[25].value = 4;
+    fields[26].value = 8;
+
+    fields[28].value = 9;
+    fields[30].value = 3;
+    fields[36].value = 8;
+    fields[40].value = 9;
+    fields[41].value = 5;
+    fields[42].value = 2;
+    fields[46].value = 3;
+    fields[47].value = 6;
+    fields[49].value = 2;
+    fields[50].value = 1;
+    fields[52].value = 5;
+
+    fields[59].value = 7;
+    fields[62].value = 3;
+    fields[64].value = 5;
+    fields[69].value = 8;
+    fields[77].value = 2;
+    fields[80].value = 9;
+
   }
 
   int getRowStartingIndex(int rowNum) {
@@ -42,6 +70,47 @@ class SudokuPuzzle {
     return colNum + 9 * rowNum;
   }
 
+  static int getBlockNumForIndex(int index) {
+    // i am sure there is an algorithm for this
+
+    if (index < 3) return 0;
+    if (index < 6) return 1;
+    if (index < 9) return 2;
+
+    if (index < 12) return 0;
+    if (index < 15) return 1;
+    if (index < 18) return 2;
+
+    if (index < 21) return 0;
+    if (index < 24) return 1;
+    if (index < 27) return 2;
+
+    if (index < 30) return 3;
+    if (index < 33) return 4;
+    if (index < 36) return 5;
+
+    if (index < 39) return 3;
+    if (index < 42) return 4;
+    if (index < 45) return 5;
+
+    if (index < 48) return 3;
+    if (index < 51) return 4;
+    if (index < 54) return 5;
+
+    if (index < 57) return 6;
+    if (index < 60) return 7;
+    if (index < 63) return 8;
+
+    if (index < 66) return 6;
+    if (index < 69) return 7;
+    if (index < 72) return 8;
+
+    if (index < 75) return 6;
+    if (index < 78) return 7;
+
+    return 8;
+  }
+
   List<SudokuField> getBlock(int blockNum) {
     int startingRow = 0;
     if (blockNum >= 3) {
@@ -51,12 +120,7 @@ class SudokuPuzzle {
       startingRow = 6;
     }
 
-    int startingCol = 0;
-    if (blockNum == 1 || blockNum == 4|| blockNum == 7) {
-      startingCol = 3;
-    } else if (blockNum == 2 || blockNum == 5|| blockNum == 8) {
-      startingCol = 6;
-    }
+    int startingCol = blockNum % 3 * 3;
 
     return [
       fields[getIndex(startingRow, startingCol)],

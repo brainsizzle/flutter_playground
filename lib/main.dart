@@ -111,6 +111,17 @@ class _MainPageState extends State<MainPage> {
                 // todo maybe grid view would be better
                 // todo 3*3 in 3*3
                 Table(
+                    columnWidths: const <int, TableColumnWidth>{
+                      0: IntrinsicColumnWidth(),
+                      1: IntrinsicColumnWidth(),
+                      2: IntrinsicColumnWidth(),
+                      3: IntrinsicColumnWidth(),
+                      4: IntrinsicColumnWidth(),
+                      5: IntrinsicColumnWidth(),
+                      6: IntrinsicColumnWidth(),
+                      7: IntrinsicColumnWidth(),
+                      8: IntrinsicColumnWidth(),
+                    },
                     children: List<RowDisplay>.generate(
                         9, (rowNum) => new RowDisplay(
                         sudokuPuzzle: puzzle,
