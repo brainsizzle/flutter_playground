@@ -3,6 +3,7 @@ import 'package:sudokudart/src/model/field.dart';
 import 'package:sudokudart/src/model/puzzle.dart';
 
 class ValueDisplay extends StatelessWidget {
+
   ValueDisplay(
       {Key key, this.value, this.fieldColor, this.borderColor, this.onClicked, this.index, this.selected = false, this.possibleValues})
       : super(key: key);

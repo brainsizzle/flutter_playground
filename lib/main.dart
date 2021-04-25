@@ -33,6 +33,11 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
+  _MainPageState() {
+    puzzle.checkPuzzle();
+  }
+
   SudokuPuzzle puzzle = new SudokuPuzzle();
 
   FocusNode _focusNode = new FocusNode();
@@ -108,8 +113,6 @@ class _MainPageState extends State<MainPage> {
             child: Column(
               children: <Widget>[
                 Padding(padding: EdgeInsets.only(top: 10.0)),
-                // todo maybe grid view would be better
-                // todo 3*3 in 3*3
                 Table(
                     columnWidths: const <int, TableColumnWidth>{
                       0: IntrinsicColumnWidth(),

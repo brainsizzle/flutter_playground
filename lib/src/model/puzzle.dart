@@ -1,8 +1,7 @@
 import 'package:sudokudart/src/model/field.dart';
 
 class SudokuPuzzle {
-  List<SudokuField> fields =
-  List<SudokuField>.generate(81, (int index) => SudokuField());
+  List<SudokuField> fields = List<SudokuField>.generate(81, (int index) => SudokuField());
 
   int selectedFieldIndex = 0;
 
@@ -53,17 +52,7 @@ class SudokuPuzzle {
   }
 
   List<SudokuField> getCol(int colNum) {
-    return [
-      fields[colNum + 0 * 9],
-      fields[colNum + 1 * 9],
-      fields[colNum + 2 * 9],
-      fields[colNum + 3 * 9],
-      fields[colNum + 4 * 9],
-      fields[colNum + 5 * 9],
-      fields[colNum + 6 * 9],
-      fields[colNum + 7 * 9],
-      fields[colNum + 8 * 9],
-    ];
+    return List.generate(9, (index) => fields[colNum + index * 9]);
   }
 
   int getIndex(int rowNum, int colNum) {
@@ -143,6 +132,11 @@ class SudokuPuzzle {
     markInvalidRows();
     markInvalidCols();
     markInvalidBlocks();
+
+    resetPossibleValues();
+    removeImpossibleValuesForRows();
+    removeImpossibleValuesForCols();
+    removeImpossibleValuesForBlocks();
   }
 
 
@@ -281,6 +275,57 @@ class SudokuPuzzle {
       selectedFieldIndex -= 72;
     } else {
       selectedFieldIndex += 9;
+    }
+  }
+
+  void resetPossibleValues() {
+    for (SudokuField sudokuField in fields) {
+      sudokuField.resetPossibleValues();
+    }
+  }
+
+  void removeImpossibleValuesForRows() {
+    for (int rowNum = 0; rowNum < 9; rowNum++) {
+      List<SudokuField> fields = getRow(rowNum);
+      Set<int> usedValues = new Set();
+      for (SudokuField field in fields) {
+        usedValues.add(field.value);
+      }
+      for (SudokuField field in fields) {
+        for(int usedValue in usedValues) {
+          field.removePossibleValue(usedValue);
+        }
+      }
+    }
+  }
+
+  void removeImpossibleValuesForCols() {
+    for (int colNum = 0; colNum < 9; colNum++) {
+      List<SudokuField> fields = getCol(colNum);
+      Set<int> usedValues = new Set();
+      for (SudokuField field in fields) {
+        usedValues.add(field.value);
+      }
+      for (SudokuField field in fields) {
+        for(int usedValue in usedValues) {
+          field.removePossibleValue(usedValue);
+        }
+      }
+    }
+  }
+
+  void removeImpossibleValuesForBlocks() {
+    for (int blockNum = 0; blockNum < 9; blockNum++) {
+      List<SudokuField> fields = getBlock(blockNum);
+      Set<int> usedValues = new Set();
+      for (SudokuField field in fields) {
+        usedValues.add(field.value);
+      }
+      for (SudokuField field in fields) {
+        for(int usedValue in usedValues) {
+          field.removePossibleValue(usedValue);
+        }
+      }
     }
   }
 }
