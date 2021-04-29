@@ -1,9 +1,13 @@
 import 'package:sudokudart/src/model/field.dart';
+import 'package:sudokudart/src/model/history.dart';
 
 class SudokuPuzzle {
-  List<SudokuField> fields = List<SudokuField>.generate(81, (int index) => SudokuField());
+
+  List<SudokuField> fields = List<SudokuField>.generate(81, (int index) => SudokuField(index));
 
   int selectedFieldIndex = 0;
+
+  List<History> previousStates = [];
 
   SudokuPuzzle() {
 
@@ -127,7 +131,6 @@ class SudokuPuzzle {
   }
 
   void checkPuzzle() {
-    print("checking puzzle");
     resetWarnings();
     markInvalidRows();
     markInvalidCols();
@@ -137,6 +140,8 @@ class SudokuPuzzle {
     removeImpossibleValuesForRows();
     removeImpossibleValuesForCols();
     removeImpossibleValuesForBlocks();
+
+    addHistory();
   }
 
 
@@ -326,6 +331,37 @@ class SudokuPuzzle {
           field.removePossibleValue(usedValue);
         }
       }
+    }
+  }
+
+  void addHistory() {
+    History newEntry = History();
+    for (SudokuField field in fields) {
+      newEntry.fields[field.index] = field.value;
+    }
+    if (previousStates.length == 0 || previousStates.last != newEntry) {
+      print("history " + newEntry.toString());
+      previousStates.add(newEntry);
+    }
+  }
+
+  String goToPrevious() {
+    if (previousStates.length <= 1) {
+      return "No previous version";
+    }
+    // forget actual one
+    previousStates.removeLast();
+    History newStateToBe = previousStates.removeLast();
+    setState(newStateToBe);
+
+    // will put the state back on 
+    checkPuzzle();
+    return "one step back";
+  }
+
+  void setState(History newStateToBe) {
+    for (int i = 0; i < 81; i++) {
+      fields[i].value = newStateToBe.fields[i];
     }
   }
 }

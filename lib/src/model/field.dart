@@ -5,7 +5,7 @@ enum Status {
 
 class SudokuField {
 
-  SudokuField() {
+  SudokuField(this.index) {
     resetPossibleValues();
   }
 
@@ -15,6 +15,7 @@ class SudokuField {
     this.possibleValues = List.of(allPossibleValues);
   }
 
+  int index;
   int value = 0;
   Status status = Status.normal;
   List<int> possibleValues;

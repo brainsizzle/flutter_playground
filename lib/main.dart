@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:sudokudart/src/model/puzzle.dart';
 import 'package:sudokudart/src/widgets/display.dart';
 import 'package:sudokudart/src/widgets/input.dart';
+import 'package:sudokudart/src/solver/logicsolver.dart';
 
 void main() {
   runApp(SuduokuSolver());
@@ -41,6 +42,8 @@ class _MainPageState extends State<MainPage> {
   SudokuPuzzle puzzle = new SudokuPuzzle();
 
   FocusNode _focusNode = new FocusNode();
+
+  String _message = "Hello World";
 
   void _fieldClicked(int index) {
     setState(() {
@@ -82,7 +85,12 @@ class _MainPageState extends State<MainPage> {
           puzzle.getSelectedField().value = 8;
         } else if ("9" == rawKeyEvent.character) {
           puzzle.getSelectedField().value = 9;
+        } else if ("?" == rawKeyEvent.character) {
+          _message = solveField(puzzle);
+        } else if ("<" == rawKeyEvent.character) {
+          _message = puzzle.goToPrevious();
         }
+        // todo "!" -> puzzle solve all
         puzzle.checkPuzzle();
       }
     });
@@ -92,6 +100,10 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       if (value == "X") {
         puzzle.resetSelectedField();
+      } else if (value == "?") {
+        _message = solveField(puzzle);
+      } else if (value == "<" ) {
+        _message = puzzle.goToPrevious();
       } else {
         puzzle.setSelectedValue(int.parse(value));
       }
@@ -132,6 +144,8 @@ class _MainPageState extends State<MainPage> {
                         numberOfFields: 9,
                         onClicked: _fieldClicked))),
                 Spacer(),
+                Text(_message),
+                Spacer(),
                 Table(
                   children: [
                     TableRow(
@@ -141,6 +155,7 @@ class _MainPageState extends State<MainPage> {
                         TypeValueButton(value: "3", onClicked: _buttonClicked),
                         TypeValueButton(value: "4", onClicked: _buttonClicked),
                         TypeValueButton(value: "5", onClicked: _buttonClicked),
+                        TypeValueButton(value: "?", onClicked: _buttonClicked),
                       ],
                     ),
                     TableRow(
@@ -150,6 +165,7 @@ class _MainPageState extends State<MainPage> {
                         TypeValueButton(value: "8", onClicked: _buttonClicked),
                         TypeValueButton(value: "9", onClicked: _buttonClicked),
                         TypeValueButton(value: "X", onClicked: _buttonClicked),
+                        TypeValueButton(value: "<", onClicked: _buttonClicked),
                       ],
                     ),
                   ],),
