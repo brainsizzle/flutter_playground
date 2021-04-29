@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sudokudart/src/model/puzzle.dart';
+import 'package:sudokudart/src/solver/bruteforce.dart';
 import 'package:sudokudart/src/widgets/display.dart';
 import 'package:sudokudart/src/widgets/input.dart';
 import 'package:sudokudart/src/solver/logicsolver.dart';
@@ -90,7 +91,6 @@ class _MainPageState extends State<MainPage> {
         } else if ("<" == rawKeyEvent.character) {
           _message = puzzle.goToPrevious();
         }
-        // todo "!" -> puzzle solve all
         puzzle.checkPuzzle();
       }
     });
@@ -104,6 +104,8 @@ class _MainPageState extends State<MainPage> {
         _message = solveField(puzzle);
       } else if (value == "<" ) {
         _message = puzzle.goToPrevious();
+      } else if (value == ">>>" ) {
+        _message = solveBruteForce(puzzle);
       } else {
         puzzle.setSelectedValue(int.parse(value));
       }
@@ -156,6 +158,7 @@ class _MainPageState extends State<MainPage> {
                         TypeValueButton(value: "4", onClicked: _buttonClicked),
                         TypeValueButton(value: "5", onClicked: _buttonClicked),
                         TypeValueButton(value: "?", onClicked: _buttonClicked),
+                        TypeValueButton(value: ">>>", onClicked: _buttonClicked),
                       ],
                     ),
                     TableRow(
@@ -166,6 +169,7 @@ class _MainPageState extends State<MainPage> {
                         TypeValueButton(value: "9", onClicked: _buttonClicked),
                         TypeValueButton(value: "X", onClicked: _buttonClicked),
                         TypeValueButton(value: "<", onClicked: _buttonClicked),
+                        TypeValueButton(value: ">>>", onClicked: _buttonClicked),
                       ],
                     ),
                   ],),

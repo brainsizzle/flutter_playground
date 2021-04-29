@@ -1,5 +1,6 @@
 import 'package:sudokudart/src/model/field.dart';
 import 'package:sudokudart/src/model/history.dart';
+import 'package:sudokudart/src/model/validator.dart';
 
 class SudokuPuzzle {
 
@@ -11,7 +12,6 @@ class SudokuPuzzle {
 
   SudokuPuzzle() {
 
-    // todo import from string
     fields[2].value = 8;
     fields[9].value = 4;
     fields[10].value = 1;
@@ -153,7 +153,7 @@ class SudokuPuzzle {
 
   void markInvalidBlocks() {
     for (int blockNum = 0; blockNum < 9; blockNum++) {
-      bool valid = isBlockValid(blockNum);
+      bool valid = isBlockValid(this, blockNum);
       if (!valid) {
         setStatusForBlock(blockNum, Status.warning);
       }
@@ -162,7 +162,7 @@ class SudokuPuzzle {
 
   void markInvalidRows() {
     for (int rowNum = 0; rowNum < 9; rowNum++) {
-      bool valid = isRowValid(rowNum);
+      bool valid = isRowValid(this, rowNum);
       if (!valid) {
         setStatusForRow(rowNum, Status.warning);
       }
@@ -171,42 +171,11 @@ class SudokuPuzzle {
 
   void markInvalidCols() {
     for (int colNum = 0; colNum < 9; colNum++) {
-      bool valid = isColValid(colNum);
+      bool valid = isColValid(this, colNum);
       if (!valid) {
         setStatusForCol(colNum, Status.warning);
       }
     }
-  }
-
-  bool isRowValid(int rowNum) {
-    List<SudokuField> fields = getRow(rowNum);
-    return !hasDuplicates(fields);
-  }
-
-  bool isBlockValid(int blockNum) {
-    List<SudokuField> fields = getBlock(blockNum);
-    return !hasDuplicates(fields);
-  }
-
-  bool isColValid(int colNum) {
-    List<SudokuField> fields = getCol(colNum);
-    return !hasDuplicates(fields);
-  }
-
-  bool hasDuplicates(List<SudokuField> fields) {
-    List<int> occurrences = List.filled(9, 0);
-    for (SudokuField field in fields) {
-      int value = field.value;
-      if (value > 0) {
-        occurrences[value - 1]++;
-      }
-    }
-    for (int counter in occurrences) {
-      if (counter > 1) {
-        return true;
-      }
-    }
-    return false;
   }
 
   void setStatusForBlock(int blockNum, Status status) {
@@ -335,14 +304,19 @@ class SudokuPuzzle {
   }
 
   void addHistory() {
-    History newEntry = History();
-    for (SudokuField field in fields) {
-      newEntry.fields[field.index] = field.value;
-    }
+    History newEntry = buildHistory();
     if (previousStates.length == 0 || previousStates.last != newEntry) {
       print("history " + newEntry.toString());
       previousStates.add(newEntry);
     }
+  }
+
+  History buildHistory() {
+     History newEntry = History();
+    for (SudokuField field in fields) {
+      newEntry.fields[field.index] = field.value;
+    }
+    return newEntry;
   }
 
   String goToPrevious() {
@@ -354,7 +328,7 @@ class SudokuPuzzle {
     History newStateToBe = previousStates.removeLast();
     setState(newStateToBe);
 
-    // will put the state back on 
+    // will put the state back on
     checkPuzzle();
     return "one step back";
   }

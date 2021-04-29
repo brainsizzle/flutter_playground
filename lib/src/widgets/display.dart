@@ -25,12 +25,12 @@ class ValueDisplay extends StatelessWidget {
     String _text = possibleValues.contains(num) ? num.toString() : "";
 
     return Container (
-        // decoration: BoxDecoration(
-        //   borderRadius: BorderRadius.all(
-        //     Radius.circular(500),
-        //   ),
-        //   color: Colors.green,
-        // ),
+      // decoration: BoxDecoration(
+      //   borderRadius: BorderRadius.all(
+      //     Radius.circular(500),
+      //   ),
+      //   color: Colors.green,
+      // ),
         child: Center(
             child: Text(
               _text,
@@ -143,6 +143,7 @@ class RowDisplay extends TableRow {
   List<Widget> get children => List.generate(
       numberOfFields,
           (index) => new ValueDisplay(
+        key: Key("sudokufield_" + (index+startingIndex).toString()),
         value: sudokuPuzzle.getField(index+startingIndex).value,
         possibleValues:  sudokuPuzzle.getField(index+startingIndex).possibleValues,
         fieldColor: getColorForStatus(sudokuPuzzle.getField(index+startingIndex).getStatus()),

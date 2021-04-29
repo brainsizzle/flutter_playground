@@ -1,4 +1,3 @@
-
 class History {
 
   List<int> fields = List<int>.generate(81, (int index) => 0);

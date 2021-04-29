@@ -1,6 +1,43 @@
 import 'package:sudokudart/src/model/field.dart';
 import 'package:sudokudart/src/model/puzzle.dart';
 
+
+int solveUntilNoFurtherIdeas(SudokuPuzzle sudokuPuzzle) {
+  int counter = 0;
+  bool found = _solveUntilNoFurtherIdeasInternal(sudokuPuzzle);
+  while (found) {
+    counter++;
+    found = _solveUntilNoFurtherIdeasInternal(sudokuPuzzle);
+  }
+  return counter;
+}
+
+bool _solveUntilNoFurtherIdeasInternal(SudokuPuzzle sudokuPuzzle) {
+
+  if (findOnlyOccurrenceInBlock(sudokuPuzzle) >= 0) {
+    sudokuPuzzle.checkPuzzle();
+    return true;
+  }
+
+  if (findOnlyOccurrenceInColumn(sudokuPuzzle) >= 0) {
+    sudokuPuzzle.checkPuzzle();
+    return true;
+  }
+
+  if (findOnlyOccurrenceInRow(sudokuPuzzle) >= 0) {
+    sudokuPuzzle.checkPuzzle();
+    return true;
+  }
+
+  if (findFieldWithOnlyOnePossibleValue(sudokuPuzzle) >= 0) {
+    sudokuPuzzle.checkPuzzle();
+    return true;
+  }
+
+  return false;
+}
+
+
 String solveField(SudokuPuzzle sudokuPuzzle) {
 
   int indexFound = -1;
