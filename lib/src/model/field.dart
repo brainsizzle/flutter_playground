@@ -12,7 +12,11 @@ class SudokuField {
   static List<int> allPossibleValues = [1,2,3,4,5,6,7,8,9];
 
   void resetPossibleValues() {
-    this.possibleValues = List.of(allPossibleValues);
+    if (value > 0) {
+      this.possibleValues = [];
+    } else {
+      this.possibleValues = List.of(allPossibleValues);
+    }
   }
 
   int index;

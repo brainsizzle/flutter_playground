@@ -12,35 +12,12 @@ class SudokuPuzzle {
 
   SudokuPuzzle() {
 
-    fields[2].value = 8;
-    fields[9].value = 4;
-    fields[10].value = 1;
-    fields[12].value = 6;
-    fields[15].value = 7;
-    fields[16].value = 9;
-    fields[18].value = 6;
-    fields[25].value = 4;
-    fields[26].value = 8;
-
-    fields[28].value = 9;
-    fields[30].value = 3;
-    fields[36].value = 8;
-    fields[40].value = 9;
-    fields[41].value = 5;
-    fields[42].value = 2;
-    fields[46].value = 3;
-    fields[47].value = 6;
-    fields[49].value = 2;
-    fields[50].value = 1;
-    fields[52].value = 5;
-
-    fields[59].value = 7;
-    fields[62].value = 3;
-    fields[64].value = 5;
-    fields[69].value = 8;
-    fields[77].value = 2;
-    fields[80].value = 9;
-
+    History history = new History();
+    // history.fromString("..8......-41.6..79.-6......48-.9.3.....-8...952..-.36.21.5.-.....7..3-.5....8..-.....2..9");
+    // history.fromString("9.8...615-413658792-6.5..9348-5923..187-841795236-736821954-.....7..3-.5....8.1-.....2..9");
+    // history.fromString("928473615-413658792-675219348-592346187-841795236-736821954-169587423-257934861-384162579");
+    // history.fromString("928473615-413658792-675219348-592346187-841795236-736821954-189567423-257934861-364182579");
+    // setState(history);
   }
 
   int getRowStartingIndex(int rowNum) {
@@ -221,8 +198,8 @@ class SudokuPuzzle {
   }
 
   void moveSelectionRight() {
-    if (selectedFieldIndex % 9 == 8) {
-      selectedFieldIndex -= 8;
+    if (selectedFieldIndex % 9 == (9-1)) {
+      selectedFieldIndex -= (9 - 1);
     } else {
       selectedFieldIndex++;
     }
@@ -230,7 +207,7 @@ class SudokuPuzzle {
 
   void moveSelectionLeft() {
     if (selectedFieldIndex % 9 == 0) {
-      selectedFieldIndex += 8;
+      selectedFieldIndex += (9 - 1);
     } else {
       selectedFieldIndex--;
     }
@@ -238,15 +215,15 @@ class SudokuPuzzle {
 
   void moveSelectionUp() {
     if (selectedFieldIndex < 9) {
-      selectedFieldIndex = 72 + selectedFieldIndex;
+      selectedFieldIndex = (9 * (9 - 1)) + selectedFieldIndex;
     } else {
       selectedFieldIndex -= 9;
     }
   }
 
   void moveSelectionDown() {
-    if (selectedFieldIndex >= 72) {
-      selectedFieldIndex -= 72;
+    if (selectedFieldIndex >= 9) {
+      selectedFieldIndex -= (9 * (9 - 1));
     } else {
       selectedFieldIndex += 9;
     }
