@@ -1,4 +1,4 @@
-package com.example.flutter_application_2
+package de.brainsizzle.sudokusolver
 
 import io.flutter.embedding.android.FlutterActivity
 

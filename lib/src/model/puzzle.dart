@@ -298,7 +298,7 @@ class SudokuPuzzle {
   void addHistory() {
     History newEntry = buildHistory();
     if (previousStates.length == 0 || previousStates.last != newEntry) {
-      print("history " + newEntry.toString());
+      // print("history " + newEntry.toString());
       previousStates.add(newEntry);
     }
   }

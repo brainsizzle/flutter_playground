@@ -48,7 +48,7 @@ void checkBranchSolutionRecursive(Branch branch, List<SudokuPuzzle> solutions) {
     if (guess != null) {
       // follow the branch
       if (guess.childBranch != null) {
-        print("child   " + guess.childBranch.toString());
+        // print("child   " + guess.childBranch.toString());
         // guess state must be reflected
         checkBranchSolutionRecursive(guess.childBranch, solutions);
       } else {
@@ -109,7 +109,7 @@ void checkGuess(Branch branch, Guess guess, List<SudokuPuzzle> solutions) {
         break;
       case ResolutionState.ValidComplete:
         guess.guessState = CheckState.CompletelyChecked;
-        print("solved  " + testPuzzle.buildHistory().toString());
+        // print("solved  " + testPuzzle.buildHistory().toString());
         solutions.add(testPuzzle);
         break;
       case ResolutionState.ValidIncomplete:
