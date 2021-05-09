@@ -5,12 +5,16 @@ enum ResolutionState {
   Invalid,
   ValidComplete,
   ValidIncomplete,
+  ValidImpossibleToSolve
 }
 
 ResolutionState validatePuzzle(SudokuPuzzle sudokuPuzzle) {
+
   if (!isPuzzleValid(sudokuPuzzle)) return ResolutionState.Invalid;
 
   if (isPuzzleComplete(sudokuPuzzle)) return ResolutionState.ValidComplete;
+
+  if (sudokuPuzzle.isObviouslyImpossible()) return ResolutionState.ValidImpossibleToSolve;
 
   return ResolutionState.ValidIncomplete;
 }

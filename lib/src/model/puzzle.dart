@@ -10,6 +10,8 @@ class SudokuPuzzle {
 
   List<History> previousStates = [];
 
+  bool allValid = true;
+
   SudokuPuzzle() {
 
     History history = new History();
@@ -17,7 +19,8 @@ class SudokuPuzzle {
     // history.fromString("9.8...615-413658792-6.5..9348-5923..187-841795236-736821954-.....7..3-.5....8.1-.....2..9");
     // history.fromString("928473615-413658792-675219348-592346187-841795236-736821954-169587423-257934861-384162579");
     // history.fromString("928473615-413658792-675219348-592346187-841795236-736821954-189567423-257934861-364182579");
-    // setState(history);
+    history.fromString("146......-.2.......-..3......-......4..-.5.......-..9.....1-..8....7.-..7..5.8.-..5...6.9");
+    setState(history);
   }
 
   int getRowStartingIndex(int rowNum) {
@@ -109,9 +112,12 @@ class SudokuPuzzle {
 
   void checkPuzzle() {
     resetWarnings();
-    markInvalidRows();
-    markInvalidCols();
-    markInvalidBlocks();
+
+    this.allValid = true;
+
+    this.allValid &= markInvalidRows();
+    this.allValid &= markInvalidCols();
+    this.allValid &= markInvalidBlocks();
 
     resetPossibleValues();
     removeImpossibleValuesForRows();
@@ -128,31 +134,40 @@ class SudokuPuzzle {
     }
   }
 
-  void markInvalidBlocks() {
+  bool markInvalidBlocks() {
+    bool allValid = true;
     for (int blockNum = 0; blockNum < 9; blockNum++) {
       bool valid = isBlockValid(this, blockNum);
       if (!valid) {
         setStatusForBlock(blockNum, Status.warning);
+        allValid = false;
       }
     }
+    return allValid;
   }
 
-  void markInvalidRows() {
+  bool markInvalidRows() {
+    bool allValid = true;
     for (int rowNum = 0; rowNum < 9; rowNum++) {
       bool valid = isRowValid(this, rowNum);
       if (!valid) {
         setStatusForRow(rowNum, Status.warning);
+        allValid = false;
       }
     }
+    return allValid;
   }
 
-  void markInvalidCols() {
+  bool markInvalidCols() {
+    bool allValid = true;
     for (int colNum = 0; colNum < 9; colNum++) {
       bool valid = isColValid(this, colNum);
       if (!valid) {
         setStatusForCol(colNum, Status.warning);
+        allValid = false;
       }
     }
+    return allValid;
   }
 
   void setStatusForBlock(int blockNum, Status status) {
@@ -314,5 +329,28 @@ class SudokuPuzzle {
     for (int i = 0; i < 81; i++) {
       fields[i].value = newStateToBe.fields[i];
     }
+  }
+
+  String reset() {
+    for (int i = 0; i < 81; i++) {
+      fields[i].value = 0;
+    }
+    return "reset";
+  }
+
+  bool isObviouslyImpossible() {
+    if (!allValid || doFieldsWithousPossibleSolutionsExist()) {
+      return true;
+    }
+    return false;
+  }
+
+  bool doFieldsWithousPossibleSolutionsExist() {
+    for (int i = 0; i < 81; i++) {
+      if (fields[i].value == 0 && fields[i].possibleValues.length < 1) {
+        return true;
+      }
+    }
+    return false;
   }
 }

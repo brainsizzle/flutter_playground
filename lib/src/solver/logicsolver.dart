@@ -14,6 +14,10 @@ int solveUntilNoFurtherIdeas(SudokuPuzzle sudokuPuzzle) {
 
 bool _solveUntilNoFurtherIdeasInternal(SudokuPuzzle sudokuPuzzle) {
 
+  if (sudokuPuzzle.isObviouslyImpossible()) {
+    return false;
+  }
+
   if (findOnlyOccurrenceInBlock(sudokuPuzzle) >= 0) {
     sudokuPuzzle.checkPuzzle();
     return true;

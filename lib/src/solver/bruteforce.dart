@@ -12,6 +12,7 @@ String solveBruteForce(SudokuPuzzle sudokuPuzzle) {
   List<SudokuPuzzle> solutions =[];
   switch (resolution)
   {
+    case ResolutionState.ValidImpossibleToSolve:
     case ResolutionState.Invalid:
     case ResolutionState.ValidComplete:
       break;
@@ -103,6 +104,9 @@ void checkGuess(Branch branch, Guess guess, List<SudokuPuzzle> solutions) {
 
     switch (resolution)
     {
+      case ResolutionState.ValidImpossibleToSolve:
+        guess.guessState = CheckState.CompletelyChecked;
+        break;
       case ResolutionState.ValidComplete:
         guess.guessState = CheckState.CompletelyChecked;
         print("solved  " + testPuzzle.buildHistory().toString());

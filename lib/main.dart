@@ -106,6 +106,8 @@ class _MainPageState extends State<MainPage> {
         _message = puzzle.goToPrevious();
       } else if (value == ">>>" ) {
         _message = solveBruteForce(puzzle);
+      } else if (value == "<<<" ) {
+        _message = puzzle.reset();
       } else {
         puzzle.setSelectedValue(int.parse(value));
       }
@@ -169,7 +171,7 @@ class _MainPageState extends State<MainPage> {
                         TypeValueButton(value: "9", onClicked: _buttonClicked),
                         TypeValueButton(value: "X", onClicked: _buttonClicked),
                         TypeValueButton(value: "<", onClicked: _buttonClicked),
-                        TypeValueButton(value: ">>>", onClicked: _buttonClicked),
+                        TypeValueButton(value: "<<<", onClicked: _buttonClicked),
                       ],
                     ),
                   ],),

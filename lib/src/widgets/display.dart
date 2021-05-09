@@ -25,16 +25,10 @@ class ValueDisplay extends StatelessWidget {
     String _text = possibleValues.contains(num) ? num.toString() : "";
 
     return Container (
-      // decoration: BoxDecoration(
-      //   borderRadius: BorderRadius.all(
-      //     Radius.circular(500),
-      //   ),
-      //   color: Colors.green,
-      // ),
         child: Center(
             child: Text(
               _text,
-              textScaleFactor: 0.8,
+              textScaleFactor: 0.75,
               style: TextStyle(color: Colors.grey[600]),
             )));
   }
@@ -61,7 +55,7 @@ class ValueDisplay extends StatelessWidget {
       widgetToDisplay = Center( child: Text(
         getValueAsText(value),
         textAlign: TextAlign.center,
-        textScaleFactor: 2.8,
+        textScaleFactor: 2.0,
         style: TextStyle(color: Colors.grey[900]),
       ));
     } else {
@@ -78,26 +72,27 @@ class ValueDisplay extends StatelessWidget {
           ),
         ],
       ));
-    };
+    }
 
     return GestureDetector(
         onTap: _handleTap,
         child: Container(
             padding: EdgeInsets.all(1),
             child: Container(
-              // padding: EdgeInsets.only(top: 8),
-                width: 48.0,
-                height: 48.0,
-                decoration: new BoxDecoration(
-                    color: fieldColor,
-                    border: Border.all(
-                      color: _borderColor,
-                      width: _borderWidth,
-                    ),
-                    borderRadius: new BorderRadius.all(
-                      const Radius.circular(5.0),
-                    )),
-                child: widgetToDisplay))
+                // padding: EdgeInsets.only(top: 8),
+                  width: 40.0,
+                  height: 40.0,
+                  decoration: new BoxDecoration(
+                      color: fieldColor,
+                      border: Border.all(
+                        color: _borderColor,
+                        width: _borderWidth,
+                      ),
+                      borderRadius: new BorderRadius.all(
+                        const Radius.circular(5.0),
+                      )),
+                  child: widgetToDisplay)
+            )
     );
   }
 }
